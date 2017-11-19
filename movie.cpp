@@ -27,7 +27,6 @@ int Movie::getType() {
 }
 
 void Movie::printElements() {
-  cout << endl;
   cout << "Title: " << getTitle() << endl;
   cout << "Year: " << getYear() << endl;
   cout << "Director: " << getDirector() << endl;

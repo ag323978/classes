@@ -44,11 +44,6 @@ int main() {
       // enter information of the media they want to add
       cout << "Enter the type of the media. Digital media includes 'VIDEOGAME', 'MOVIE', 'MUSIC': ";
       cin.getline(typeOfMedia, 10);
-      /*cout << "Enter the title please: ";
-      cin.getline(title, 100);
-      cout << "Enter the year it was released: ";
-      cin >> year;
-      cin.get();*/
       /* depending on the type of media the user chose,
 	 enter the specific information of that type of media that it doesn't have in
 	 common with the other types of media */
@@ -119,33 +114,39 @@ int main() {
       }
     } else if(strcmp(input, "SEARCH") == 0) {
       // ask if user wants to search by title or year
-      char *searchType = new char[5];
+      char *searchType = new char[6];
       cout << "Do you want to search by 'TITLE' or 'YEAR': ";
       cin.getline(searchType, 6);
+      //iterator
       vector<DigitalMedia*>::iterator it;
-      //int count = 0;
       // if they want to search by title
       if(strcmp(searchType, "TITLE") == 0) {
 	char *searchTitle = new char[100];
 	// ask for the title they are searching for
 	cout << "Please enter the title you are looking for: ";
 	cin.getline(searchTitle, 100);
+	cout << endl;
+	/* iterate through the vector of all media to see if the title the user is searching for
+	   matches with one or more from the vector */
 	for(it = mediaList.begin(); it != mediaList.end(); it++) {
 	  if(strcmp((*it)->getTitle(), searchTitle) == 0) {
 	    // if the result is a movie
 	    if((*it)->getType() == 2) {
 	      // print all of the information
+	      cout << "---Movie---" << endl;
 	      ((Movie*)(*it))->printElements();
 	    } // if the result is music
 	    else if ((*it)->getType() == 3) {
 	      // print all of the information
+	      cout << "---Music---" << endl;
 	      ((Music*)(*it))->printElements();
 	    } // if the result is a video game
 	    else if((*it)->getType() == 4) {
 	      // print all of the information
+	      cout << "---Videogame---" << endl;
 	      ((VideoGame*)(*it))->printElements();
 	    }
-	  }
+	  } 
 	}
       } else if(strcmp(searchType, "YEAR") == 0) {
 	int searchYear;
@@ -153,22 +154,28 @@ int main() {
 	cout << "Enter the year you want to search in: ";
         cin >> searchYear;
 	cin.get();
+	cout << endl;
+	/* iterate through the vector of all media to see if the title the user is searching for 
+	   matches with one or more from the vector */
 	for(it = mediaList.begin(); it != mediaList.end(); it++) {
 	  if((*it)->getYear() == searchYear) {
 	    // if the result is a movie
 	    if((*it)->getType() == 2) {
 	      // print all information
+	      cout << "---Movie---" << endl;
 	      ((Movie*)(*it))->printElements();
 	    } // if the result is music
 	    else if((*it)->getType() == 3) {
 	      // print all the information
+	      cout << "---Music---" << endl;
 	      ((Music*)(*it))->printElements();
 	    } // if the result is a video game
 	    else if((*it)->getType() == 4) {
 	      // print all the information
+	      cout << "---Videogame---" << endl;
 	      ((VideoGame*)(*it))->printElements();
 	    }
-	  }
+	  } 
 	}
       } // if the user chose a search type other than 'TITLE' or 'YEAR' its invalid
       else {
@@ -177,7 +184,109 @@ int main() {
       }
     } // if user wants to delete a media from the list
     else if(strcmp(input, "DELETE") == 0) {
-      cout << "You are going to delete an item" << endl;
+      // type
+      char *deleteType = new char[6];
+      // confirms if they want to delete the item
+      char verify[4];
+      // ask them if they want to delete by title or year
+      cout << "Would you like to delete by 'TITLE' or 'YEAR': ";
+      cin.getline(deleteType, 6);
+      // iterator
+      vector<DigitalMedia*>::iterator it;
+      if (strcmp(deleteType, "TITLE") == 0) {
+	// ask for title that user wants to delete
+	char *deleteTitle = new char[100];
+	cout << "Enter the title you want to remove: ";
+	cin.getline(deleteTitle, 100);
+	cout << endl;
+	// iterate through the vector of all medias to see if it matches the one the user wnats
+	for(it = mediaList.begin(); it != mediaList.end();) {
+	  if(strcmp((*it)->getTitle(), deleteTitle) == 0) {
+	    // if the media is a movie
+	    if((*it)->getType() == 2) {
+	      // display the information
+	      cout << "---Movie---" << endl;
+	      ((Movie*)(*it))->printElements();
+	    } // if the media is music
+	    else if((*it)->getType() == 3) {
+	      // display the information
+	      cout << "---Music---" << endl;
+	      ((Music*)(*it))->printElements();
+	    } // if the media is a videogame
+	    else if((*it)->getType() == 4) {
+	      cout << "---Videogame---" << endl;
+	      ((VideoGame*)(*it))->printElements();
+	    }
+	    // verify with user if they want to delete the media
+	    cout << "Are you sure you want to delete this? Type 'YES' or 'NO': ";
+	    cin.getline(verify, 4);
+	    // if user says yes then delete it
+	    if(strcmp(verify, "YES") == 0) {
+	      delete *it;
+	      it = mediaList.erase(it);
+	    } // if user answers no contine iterating through vector to find the right media
+	    else if(strcmp(verify, "NO") == 0) {
+	      ++it;
+	    } // if user doesn't answer correctly then contine through iterator
+	    else {
+	      cout << "Invalid answer" << endl;
+	      ++it;
+	      //break;
+	    }
+	  } // if the deleteTitle doesn't match the media in the vector continue iterating
+	  else {
+	    ++it;
+	  }
+	}
+      } else if(strcmp(deleteType, "YEAR") == 0) {
+	// the yeah in which the media the user wants to delete is in
+	int deleteYear;
+	cout << "Enter the year in which the media you want to delete is in: ";
+	cin >> deleteYear;
+	cin.get();
+	cout << endl;
+	// iterate through vector to see if the year matches any of the medias
+	for(it = mediaList.begin(); it != mediaList.end();) {
+	  if ((*it)->getYear() == deleteYear) {
+	    // if the media is a movie
+	    if((*it)->getType() == 2) {
+	      // display it's information
+	      cout << "---Movie---" << endl;
+	      ((Movie*)(*it))->printElements();
+	    } // if the media is music
+	    else if((*it)->getType() == 3) {
+	      // display it's information
+	      cout << "---Music---" << endl;
+	      ((Music*)(*it))->printElements();
+	    } // if the media is a video game
+	    else if((*it)->getType() == 4) {
+	      // display it's information
+	      ((VideoGame*)(*it))->printElements();
+	    }
+	    cout << "Are you sure you want to delete this? Type 'YES' or 'NO': ";
+	    cin.getline(verify, 4);
+	    // if the user answers yes then delete the media
+	    if(strcmp(verify, "YES") == 0) {
+	      delete *it;
+	      it = mediaList.erase(it);
+	    } // if the user answers no contune iterating through the vector
+	    else if (strcmp(verify, "NO") == 0) {
+	      ++it;
+	    } // otherwise the user didn't answer correctly
+	    else {
+	      cout << "Invalid entry" << endl;
+	      ++it;
+	      //break;
+	    }
+	  } // if the deleteYear doesn't match the media then continue through the vector
+	  else {
+	    ++it;
+	  }
+	}
+      } // the user didn't choose a valid delete type
+      else {
+	cout << "Not a valid delete type" << endl;
+      }
     } // program ends when user quits
     else if (strcmp(input, "QUIT") == 0) {
       cout << "Exiting program." << endl;

@@ -22,7 +22,6 @@ int VideoGame::getType() {
 }
 
 void VideoGame::printElements() {
-  cout << endl;
   cout << "Title: " << getTitle() << endl;
   cout << "Year: " << getYear() << endl;
   cout << "Publisher: " << getPublisher() << endl;
