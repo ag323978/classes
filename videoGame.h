@@ -9,6 +9,7 @@ class VideoGame:public DigitalMedia{
   char* getPublisher();
   float getRating();
   int getType();
+  void printElements();
   ~VideoGame();
  private:
   char* publisher;

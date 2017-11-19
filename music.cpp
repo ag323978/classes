@@ -1,5 +1,8 @@
 #include "music.h"
+#include <iostream>
 #include <cstring>
+
+using namespace std;
 
 Music::Music(char* newTitle, int newYear, char* newArtist, char* newPublisher, int newDuration):DigitalMedia(newTitle, newYear) {
   artist = newArtist;
@@ -19,7 +22,17 @@ int Music::getDuration() {
   return duration;
 }
 int Music::getType() {
-  return 1;
+  return 3;
+}
+
+void Music::printElements() {
+  cout << endl;
+  cout << "Title: " << getTitle() << endl;
+  cout << "Year: " << getYear() << endl;
+  cout << "Artist: " << getArtist() << endl;
+  cout << "Publisher: " << getPublisher() << endl;
+  cout << "Duration: " << getDuration() << " seconds" << endl;
+  cout << endl;
 }
 
 Music::~Music() {

@@ -10,6 +10,7 @@ class Movie:public DigitalMedia{
   char* getDirector();
   float getRating();
   int getType();
+  void printElements();
   ~Movie();
  private:
   char* director;

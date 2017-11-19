@@ -7,8 +7,9 @@ class DigitalMedia{
   DigitalMedia(char* newTitle, int newYear);
   char* getTitle();
   int getYear();
+  void printElements();
   virtual int getType();
-  virtual ~DigitalMedia();
+  ~DigitalMedia();
  private:
   char* title;
   int year;
